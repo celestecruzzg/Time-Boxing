@@ -7,12 +7,20 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createUserDto: CreateUserDto) {
-    return this.prisma.user.create({ data: createUserDto }); //creamos un nuevo usuario
+  async create(createUserDto: CreateUserDto) {
+    try {
+      return await this.prisma.user.create({ data: createUserDto }); //creamos un nuevo usuario
+    } catch (error) {
+      throw new Error(`No se pudo crear el usuario ${error.message}`);
+    }
   }
 
-  findAll() {
-    return this.prisma.user.findMany(); //encontramos todos los usuarios
+  async findAll() {
+    try {
+      return await this.prisma.user.findMany(); //encontramos todos los usuarios
+    } catch (error) {
+      throw new Error(`No se pudo encontrar los usuarios ${error.message}`);
+    }
   }
 
   async findOne(id: number) {
@@ -24,11 +32,22 @@ export class UserService {
     }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return this.prisma.user.update({ where: { id }, data: updateUserDto }); //actualizamos un usuario
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    try {
+      return await this.prisma.user.update({
+        where: { id },
+        data: updateUserDto,
+      }); //actualizamos un usuario
+    } catch (error) {
+      throw new Error(`No se pudo actualizar el usuario ${error.message}`);
+    }
   }
 
-  remove(id: number) {
-    return this.prisma.user.delete({ where: { id } }); //eliminamos un usuario
+  async remove(id: number) {
+    try {
+      return await this.prisma.user.delete({ where: { id } }); //eliminamos un usuario
+    } catch (error) {
+      throw new Error(`No se pudo eliminar el usuario ${error.message}`);
+    }
   }
 }

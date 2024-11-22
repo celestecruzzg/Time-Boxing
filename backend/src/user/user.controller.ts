@@ -13,12 +13,13 @@ export class UserController {
   @Post()
   @ApiResponse({ status: 201, description: 'Usuario creado exitosamente.' })
   @ApiResponse({ status: 400, description: 'Solicitud incorrecta.' })
+  @ApiResponse({ status: 500, description: 'Error interno del servidor.' })
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @Get()
-  @ApiResponse({ status: 200, description: 'Muestra todos los usuarios.' })
+  @ApiResponse({ status: 200, description: 'Mostrando todos los usuarios.' })
   findAll() {
     return this.userService.findAll();
   }
